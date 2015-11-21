@@ -1,3 +1,5 @@
+package pw.ian.sysadmincraft
+
 import org.bukkit.plugin.java.JavaPlugin
 
 class SysAdmincraft extends JavaPlugin {
