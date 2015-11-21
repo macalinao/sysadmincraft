@@ -1,2 +1,3 @@
 #!/usr/bin/env sh
-java -jar spigot/spigot.jar
+cd spigot
+java -jar spigot.jar
