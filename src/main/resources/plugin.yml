@@ -1,0 +1,4 @@
+name: SysAdmincraft
+description: Admin your server using Minecraft!
+version: 0.1.0
+main: pw.ian.sysadmincraft.SysAdmincraft
