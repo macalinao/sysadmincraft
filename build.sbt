@@ -10,7 +10,7 @@ assemblyJarName in assembly := "SysAdmincraft.jar"
 resolvers += "Bukkit" at "http://repo.bukkit.org/content/groups/public/"
 
 libraryDependencies ++= Seq(
-  "org.bukkit" %% "bukkit" % "1.6.4-R2.0" % "provided",
+  "org.bukkit" % "bukkit" % "1.6.4-R2.0" % "provided",
   "org.specs2" %% "specs2-core" % "3.6.5" % "test"
 )
 
