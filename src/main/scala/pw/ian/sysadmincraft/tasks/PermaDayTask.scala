@@ -6,7 +6,7 @@ import pw.ian.sysadmincraft.SysAdmincraft
 case class PermaDayTask(plugin: SysAdmincraft) extends BukkitRunnable {
 
   override def run(): Unit = {
-    plugin.world.setTime(12000L)
+    plugin.world.setTime(6000L)
   }
 
 }
