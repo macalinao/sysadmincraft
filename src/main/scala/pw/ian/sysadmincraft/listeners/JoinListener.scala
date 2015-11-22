@@ -1,8 +1,9 @@
-package pw.ian.sysadmincraft
+package pw.ian.sysadmincraft.listeners
 
-import org.bukkit.{Location, GameMode}
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.{EventHandler, Listener}
+import org.bukkit.{GameMode, Location}
+import pw.ian.sysadmincraft.SysAdmincraft
 import pw.ian.sysadmincraft.world.WorldConstants._
 
 case class JoinListener(plugin: SysAdmincraft) extends Listener {

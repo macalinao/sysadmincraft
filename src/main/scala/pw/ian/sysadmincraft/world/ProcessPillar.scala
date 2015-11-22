@@ -26,6 +26,11 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     this.height = newHeight
   }
 
+  def destroy() = {
+    destruct(0, height)
+    kill()
+  }
+
   def kill() = process.kill()
 
   private def memToHeight(memoryUsage: Long) = {

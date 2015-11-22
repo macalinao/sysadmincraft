@@ -1,5 +1,7 @@
 package pw.ian.sysadmincraft
 
+import pw.ian.sysadmincraft.listeners.{KillListener, JoinListener}
+
 import scala.sys.process._
 import org.bukkit.World
 import org.bukkit.plugin.java.JavaPlugin
@@ -16,6 +18,7 @@ class SysAdmincraft extends JavaPlugin {
     pillarManager = PillarManager(this, world)
     pillarManager.initPillars()
     getServer.getPluginManager.registerEvents(new JoinListener(this), this)
+    getServer.getPluginManager.registerEvents(new KillListener(this), this)
     new PillarUpdateTask(this).runTaskTimer(this, 5000L, 5000L)
   }
 
