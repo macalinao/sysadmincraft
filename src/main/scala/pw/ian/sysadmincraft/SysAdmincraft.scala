@@ -14,11 +14,12 @@ class SysAdmincraft extends JavaPlugin {
   override def onEnable() = {
     world = PillarWorldCreator.create("sysadmincraft")
     pillarManager = PillarManager(this, world)
+    pillarManager.initPillars()
     getServer.getPluginManager.registerEvents(new JoinListener(this), this)
     new PillarUpdateTask(this).runTaskTimer(this, 5000L, 5000L)
   }
 
-  override def onDisable = {
+  override def onDisable() = {
     getLogger.info("Deleting world sysadmincraft...")
 
     // Delete the world
