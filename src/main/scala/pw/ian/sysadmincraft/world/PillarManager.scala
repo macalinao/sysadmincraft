@@ -37,8 +37,8 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     pillar
   }
 
-  def handleDeath(uuid: UUID): Unit = {
-    pillars.values.find(_.mob.getUniqueId == uuid) match {
+  def handleDeath(name: String): Unit = {
+    pillars.get(name) match {
       case Some(pillar) => destroyPillar(pillar)
       case None =>
     }
