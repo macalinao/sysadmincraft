@@ -20,6 +20,8 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } else {
       destruct(newHeight + 1, height)
     }
+    destroyCpu()
+    buildCpu(cpuToHeight(process.cpuPct))
     setupFence()
     updateStats()
     this.process = process
@@ -28,6 +30,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   def teardown() = {
     destruct(0, height)
+    destroyCpu()
     clearBase()
     base.getRelative(0, 2, -1).setType(Material.AIR)
   }
@@ -49,17 +52,31 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
+  private def cpuToHeight(cpuPct: Double): Int = {
+    (WorldConstants.MAX_HEIGHT * cpuPct / 100d).toInt
+  }
+
   private def updateStats(): Unit = {
-    val block = base.getRelative(0, 2, -1)
-    if (block.getType != Material.WALL_SIGN) {
-      block.setType(Material.WALL_SIGN)
+    val leftBlock = base.getRelative(PILLAR_WIDTH - 1, 2, -1)
+    if (leftBlock.getType != Material.WALL_SIGN) {
+      leftBlock.setType(Material.WALL_SIGN)
     }
-    val sign = block.getState.asInstanceOf[Sign]
-    sign.setLine(0, process.name)
-    sign.setLine(1, "Real: " + process.realMemory)
-    sign.setLine(2, "Virtual: " + process.virtualMemory)
-    sign.setLine(3, "Count: " + process.ids.size)
-    sign.update(true)
+    val leftSign = leftBlock.getState.asInstanceOf[Sign]
+    leftSign.setLine(0, process.name)
+    leftSign.setLine(1, "Real: " + process.realMemory)
+    leftSign.setLine(2, "Virtual: " + process.virtualMemory)
+    leftSign.setLine(3, "Count: " + process.ids.size)
+    leftSign.update(true)
+    val rightBlock = base.getRelative(0, 2, -1)
+    if (rightBlock.getType != Material.WALL_SIGN) {
+      rightBlock.setType(Material.WALL_SIGN)
+    }
+    val rightSign = rightBlock.getState.asInstanceOf[Sign]
+    rightSign.setLine(0, f"CPU %%: ${process.cpuPct}%.2f")
+    rightSign.setLine(1, f"MEM %%: ${process.memPct}%.2f")
+    rightSign.setLine(2, s"Stat: ${process.stat}")
+    rightSign.setLine(3, s"Time: ${process.time}")
+    rightSign.update(true)
   }
 
   /**
@@ -133,6 +150,22 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   private def destruct(startHeight: Int, endHeight: Int): Unit =
     blocks(startHeight, endHeight).foreach(_.setType(Material.AIR))
+
+  private def destroyCpu() = {
+    for {
+      x <- List(0, 3)
+      y <- 0 until 256 // clear all world
+      z <- List(0, 3)
+    } base.getRelative(x, y, z).setType(Material.AIR)
+  }
+
+  private def buildCpu(height: Int) = {
+    for {
+      x <- List(0, 3)
+      y <- 0 until height
+      z <- List(0, 3)
+    } base.getRelative(x, y, z).setType(Material.DIAMOND_BLOCK)
+  }
 
   private def blocks(startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {

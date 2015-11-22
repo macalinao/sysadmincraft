@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/simplyianm/sysadmincraft.svg)](https://travis-ci.org/simplyianm/sysadmincraft)
 
+[View on YouTube][youtube]
+
 Admin your server in Minecraft!
 
 SysAdmincraft is a way to monitor your server through a fun interface. To kill a process, just kill a monster! Memory management is easy -- you can visually see what processes are taking the most memory on your server. No more ps, top, uname -a, etc! Just connect to a Minecraft server and start managing everything!
@@ -17,3 +19,5 @@ SysAdmincraft is a way to monitor your server through a fun interface. To kill a
 ## License
 
 ISC
+
+[youtube]: https://youtu.be/rD9yJ9MHWzo

@@ -12,12 +12,8 @@ object SystemOverview {
     "uptime" !!
   }
 
-  def memory(): Array[String] = {
-    ("vm_stat" #| "head -n 4" !!).split("\n")
-  }
-
   def totalMem(): Int = {
-    (("ps -caxm -orss" !!).split("\n").tail.map(_.trim.toLong).sum / 1024).toInt
+    (("ps caxm -orss" !!).split("\n").tail.map(_.trim.toLong).sum / 1024).toInt
   }
 
 }

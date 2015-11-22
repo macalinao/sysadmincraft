@@ -10,7 +10,7 @@ import pw.ian.sysadmincraft.world.WorldConstants._
 case class TopCommand(plugin: SysAdmincraft) extends CommandExecutor {
 
   override def onCommand(sender: CommandSender, command: Command, label: String, args: Array[String]): Boolean = {
-    if (!sender.isInstanceOf[Player]){
+    if (!sender.isInstanceOf[Player]) {
       sender.sendMessage(ChatColor.RED + "You can't use this command from the console.")
       return true
     }
@@ -20,10 +20,11 @@ case class TopCommand(plugin: SysAdmincraft) extends CommandExecutor {
 
     player.sendMessage(ChatColor.GREEN + SystemOverview.uname())
     player.sendMessage(ChatColor.BLUE + SystemOverview.uptime())
-    SystemOverview.memory().foreach { msg =>
-      player.sendMessage(ChatColor.YELLOW + msg)
+    try {
+      player.sendMessage(ChatColor.GREEN + "Total memory: " + ChatColor.YELLOW + SystemOverview.totalMem() + " MB")
+    } catch {
+      case _: Throwable =>
     }
-    player.sendMessage(ChatColor.GREEN + "Total memory: " + ChatColor.YELLOW + SystemOverview.totalMem() + " MB")
 
     true
   }
