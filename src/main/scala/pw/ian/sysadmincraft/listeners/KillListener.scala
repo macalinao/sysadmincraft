@@ -1,6 +1,5 @@
 package pw.ian.sysadmincraft.listeners
 
-import org.bukkit.entity.LivingEntity
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.event.entity.{EntityDamageEvent, EntityDeathEvent}
 import pw.ian.sysadmincraft.SysAdmincraft

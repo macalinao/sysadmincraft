@@ -11,7 +11,7 @@ case class SysProcess(ids: Set[Int], realMemory: Long, virtualMemory: Long, name
   def memAmt: Double = Math.min(totalMemory.toDouble / WorldConstants.MAX_MEMORY, 1)
 
   def kill() = {
-    // ids.foreach(x => s"kill -9 $x" !)
+    ids.foreach(x => s"kill -9 $x" !)
   }
 
 }
