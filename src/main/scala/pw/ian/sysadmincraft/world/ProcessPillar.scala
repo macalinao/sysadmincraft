@@ -1,7 +1,7 @@
 package pw.ian.sysadmincraft.world
 
 import org.bukkit.Material
-import org.bukkit.block.Block
+import org.bukkit.block.{Sign, Block}
 import pw.ian.sysadmincraft.Process
 import pw.ian.sysadmincraft.world.WorldConstants._
 
@@ -13,7 +13,12 @@ case class ProcessPillar(base: Block, var process: Process) {
   def update(process: Process) = {
     assert(this.process.id == process.id)
     val newHeight = memToHeight(process.memoryUsage)
-    form(newHeight)
+    if (newHeight > height) {
+      construct(height + 1, newHeight, Material.GOLD_BLOCK)
+    } else {
+      destruct(newHeight + 1, height)
+    }
+    updateStats
     this.process = process
     this.height = newHeight
   }
@@ -23,23 +28,23 @@ case class ProcessPillar(base: Block, var process: Process) {
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
-  private def form(newHeight: Int): Unit = {
-    if (newHeight > height) {
-      PillarUtil.construct(base, height + 1, newHeight, Material.GOLD_BLOCK)
-    } else {
-      PillarUtil.destruct(base, newHeight + 1, height)
-    }
+  private def updateStats: Unit = {
+    val block = base.getRelative(1, 2, -1)
+    block.setType(Material.SIGN)
+    val sign = block.getState.asInstanceOf[Sign]
+    // sign.setLine(0, process.name)
+    sign.update()
   }
+
+  private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
+    PillarUtil.blocks(base, startHeight, endHeight).foreach(_.setType(blockType))
+
+  private def destruct(startHeight: Int, endHeight: Int): Unit =
+    PillarUtil.blocks(base, startHeight, endHeight).foreach(_.setType(Material.AIR))
 
 }
 
 object PillarUtil {
-
-  def construct(base: Block, startHeight: Int, endHeight: Int, blockType: Material): Unit =
-    blocks(base, startHeight, endHeight).foreach(_.setType(blockType))
-
-  def destruct(base: Block, startHeight: Int, endHeight: Int): Unit =
-    blocks(base, startHeight, endHeight).foreach(_.setType(Material.AIR))
 
   def blocks(base: Block, startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
