@@ -57,7 +57,7 @@ object PillarManagerUtils {
         case 2 => r
         case 3 => r - (a % en)
       }
-      )
+    )
   }
 
 
