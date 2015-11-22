@@ -22,9 +22,9 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     }
 
     for {
-      x <- 0 until PILLAR_WIDTH
+      x <- PILLAR_PADDING until PILLAR_WIDTH - PILLAR_PADDING
       y <- 0 to 2
-      z <- 0 until PILLAR_WIDTH
+      z <- PILLAR_PADDING until PILLAR_WIDTH - PILLAR_PADDING
     } base.getRelative(x, y, z).setType(Material.AIR)
 
     setupFence()

@@ -10,6 +10,8 @@ object WorldConstants {
 
   val PILLAR_WIDTH = 4
 
+  val PILLAR_PADDING = 1
+
   val PATHWAY_WIDTH = 4
 
   val PILLAR_DISTANCE = PILLAR_WIDTH + PATHWAY_WIDTH

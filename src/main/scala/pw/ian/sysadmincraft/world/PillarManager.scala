@@ -18,7 +18,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
   def initPillars(): List[ProcessPillar] = {
     ProcessAdmin.processes().sortBy(-_.totalMemory).zipWithIndex.map { case (process, index) =>
       buildPillar(index, process)
-    }.toList
+    }
   }
 
   def refresh(processes: Iterable[SysProcess]) = {
