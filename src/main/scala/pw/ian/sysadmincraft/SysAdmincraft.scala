@@ -19,7 +19,7 @@ class SysAdmincraft extends JavaPlugin {
     pillarManager.initPillars()
     getServer.getPluginManager.registerEvents(new JoinListener(this), this)
     getServer.getPluginManager.registerEvents(new KillListener(this), this)
-    new PillarUpdateTask(this).runTaskTimer(this, 5000L, 5000L)
+    new PillarUpdateTask(this).runTaskTimer(this, 100L, 100L)
   }
 
   override def onDisable() = {
