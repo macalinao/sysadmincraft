@@ -4,6 +4,8 @@
 
 Admin your server in Minecraft!
 
+SysAdmincraft is a way to monitor your server through a fun interface. To kill a process, just kill a monster! Memory management is easy -- you can visually see what processes are taking the most memory on your server. No more ps, top, uname -a, etc! Just connect to a Minecraft server and start managing everything!
+
 ## Running
 
 * Run `sbt test assembly` to create the plugin.
