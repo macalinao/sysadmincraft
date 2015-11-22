@@ -21,12 +21,6 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
       destruct(newHeight + 1, height)
     }
 
-    for {
-      x <- PILLAR_PADDING until PILLAR_WIDTH - PILLAR_PADDING
-      y <- 0 to 2
-      z <- PILLAR_PADDING until PILLAR_WIDTH - PILLAR_PADDING
-    } base.getRelative(x, y, z).setType(Material.AIR)
-
     setupFence()
     updateStats()
     this.process = process
@@ -119,8 +113,8 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   private def blocks(startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
       level <- startHeight to endHeight
-      x <- base.getX until base.getX + PILLAR_WIDTH
-      z <- base.getZ until base.getZ + PILLAR_WIDTH
+      x <- base.getX + PILLAR_PADDING until base.getX + PILLAR_WIDTH - PILLAR_PADDING
+      z <- base.getZ + PILLAR_PADDING until base.getZ + PILLAR_WIDTH - PILLAR_PADDING
     } yield base.getWorld.getBlockAt(x, level + START_HEIGHT, z)
 
 }
