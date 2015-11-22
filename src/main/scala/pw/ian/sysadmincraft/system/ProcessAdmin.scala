@@ -34,7 +34,7 @@ object ProcessAdmin {
       .map(x => x(3) -> Array(x(0), x(1), x(2)))
       .groupBy(_._1)
       .mapValues(_.map(_._2))
-      .mapValues(_.map( x => (x(0).toInt, x(1).toLong, x(2).toLong / 1024)))
+      .mapValues(_.map(x => (x(0).toInt, x(1).toLong, x(2).toLong / 1024)))
       .mapValues {
         _.foldLeft((Set[Int](), 0L, 0L)) { (acc, v) => (acc._1 + v._1, acc._2 + v._2, acc._3 + v._3) }
       }
