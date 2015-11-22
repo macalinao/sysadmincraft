@@ -6,7 +6,7 @@ object WorldConstants {
 
   val MAX_HEIGHT = 256 - START_HEIGHT
 
-  val MAX_MEMORY = 8L * 1024 * 1024 * 1024 // 8GB
+  val MAX_MEMORY = 4L * 1024 * 1024 // 4GB
 
   val PILLAR_WIDTH = 4
 
