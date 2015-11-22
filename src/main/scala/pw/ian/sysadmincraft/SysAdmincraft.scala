@@ -5,11 +5,10 @@ import org.bukkit.plugin.java.JavaPlugin
 class SysAdmincraft extends JavaPlugin {
 
   override def onEnable() = {
-    getLogger.info("Test")
+    getServer.getPluginManager.registerEvents(new PlayerListener(), this)
   }
 
   override def onDisable = {
-
   }
 
 }
