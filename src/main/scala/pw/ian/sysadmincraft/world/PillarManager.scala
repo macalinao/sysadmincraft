@@ -1,7 +1,8 @@
 package pw.ian.sysadmincraft.world
 
 import org.bukkit.World
-import pw.ian.sysadmincraft.{ProcessAdmin, SysAdmincraft}
+import pw.ian.sysadmincraft.system.ProcessAdmin
+import pw.ian.sysadmincraft.SysAdmincraft
 import pw.ian.sysadmincraft.world.WorldConstants._
 
 case class PillarManager(plugin: SysAdmincraft, world: World) {
