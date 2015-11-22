@@ -2,6 +2,7 @@ package pw.ian.sysadmincraft.world
 
 import org.bukkit.World
 import pw.ian.sysadmincraft.{ProcessAdmin, SysAdmincraft}
+import pw.ian.sysadmincraft.world.WorldConstants._
 
 case class PillarManager(plugin: SysAdmincraft, world: World) {
 
@@ -15,7 +16,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
 
   private def blockFromIndex(index: Int) = {
     val i = spiralIndex(index)
-    world.getBlockAt(i._1 * 6, 64, i._2 * 6)
+    world.getBlockAt(i._1 * PILLAR_DISTANCE, START_HEIGHT, i._2 * PILLAR_DISTANCE)
   }
 
   private def spiralIndex(n: Int): (Int, Int) = {

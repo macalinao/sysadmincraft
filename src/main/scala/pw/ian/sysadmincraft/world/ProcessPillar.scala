@@ -3,8 +3,9 @@ package pw.ian.sysadmincraft.world
 import org.bukkit.Material
 import org.bukkit.block.Block
 import pw.ian.sysadmincraft.Process
+import pw.ian.sysadmincraft.world.WorldConstants._
 
-class ProcessPillar(base: Block, var process: Process) {
+case class ProcessPillar(base: Block, var process: Process) {
 
   var height = 0
   update(process)
@@ -19,7 +20,7 @@ class ProcessPillar(base: Block, var process: Process) {
 
   private def memToHeight(memoryUsage: Long) = {
     Math.max(WorldConstants.MAX_HEIGHT,
-      ((memoryUsage.toDouble / WorldConstants.MAX_MEMORY) * WorldConstants.MAX_HEIGHT).toInt)
+      ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
   private def form(newHeight: Int): Unit = {
@@ -43,8 +44,8 @@ object PillarUtil {
   def blocks(base: Block, startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
       level <- startHeight to endHeight
-      x <- base.getX to base.getX + 4
-      z <- base.getZ to base.getZ + 4
-    } yield base.getWorld.getBlockAt(x, level + 64, z)
+      x <- base.getX to base.getX + PILLAR_WIDTH
+      z <- base.getZ to base.getZ + PILLAR_WIDTH
+    } yield base.getWorld.getBlockAt(x, level + START_HEIGHT, z)
 
 }
