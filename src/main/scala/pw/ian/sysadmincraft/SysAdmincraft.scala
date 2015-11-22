@@ -12,9 +12,9 @@ class SysAdmincraft extends JavaPlugin {
   var pillarManager: PillarManager = null
 
   override def onEnable() = {
-    getServer.getPluginManager.registerEvents(new PlayerListener(), this)
     world = PillarWorldCreator.create("sysadmincraft")
     pillarManager = PillarManager(this, world)
+    getServer.getPluginManager.registerEvents(new JoinListener(this), this)
   }
 
   override def onDisable = {

@@ -16,7 +16,8 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
 
   private def blockFromIndex(index: Int) = {
     val i = spiralIndex(index)
-    world.getBlockAt(i._1 * PILLAR_DISTANCE, START_HEIGHT, i._2 * PILLAR_DISTANCE)
+    world.getBlockAt(i._1 * PILLAR_DISTANCE + (PILLAR_DISTANCE / 2),
+      START_HEIGHT, i._2 * PILLAR_DISTANCE + (PILLAR_DISTANCE / 2))
   }
 
   private def spiralIndex(n: Int): (Int, Int) = {
