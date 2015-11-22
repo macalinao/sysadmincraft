@@ -154,7 +154,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   private def destroyCpu() = {
     for {
       x <- List(0, 3)
-      y <- 0 until MAX_HEIGHT
+      y <- 0 until 256 // clear all world
       z <- List(0, 3)
     } base.getRelative(x, y, z).setType(Material.AIR)
   }
