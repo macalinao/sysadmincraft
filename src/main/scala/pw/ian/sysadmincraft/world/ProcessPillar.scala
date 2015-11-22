@@ -37,6 +37,13 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     process.kill()
   }
 
+  def location = {
+    val location = base.getLocation.add(PILLAR_WIDTH / 2, 0, -2)
+    location.setPitch(0f)
+    location.setYaw(0f)
+    location
+  }
+
   private def memToHeight(memoryUsage: Long) = {
     Math.min(WorldConstants.MAX_HEIGHT,
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
