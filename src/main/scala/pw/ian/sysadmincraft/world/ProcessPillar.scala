@@ -50,13 +50,15 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   private def updateStats(): Unit = {
     val block = base.getRelative(0, 2, -1)
-    block.setType(Material.WALL_SIGN)
+    if (block.getType != Material.WALL_SIGN) {
+      block.setType(Material.WALL_SIGN)
+    }
     val sign = block.getState.asInstanceOf[Sign]
     sign.setLine(0, process.name)
     sign.setLine(1, "Real: " + process.realMemory)
     sign.setLine(2, "Virtual: " + process.virtualMemory)
     sign.setLine(3, "Count: " + process.ids.size)
-    sign.update()
+    sign.update(true)
   }
 
   /**
@@ -93,16 +95,16 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
     //then make a hole inside those blocks to house the mobs
     for {
-      x <- 1 until PILLAR_WIDTH - 1
+      x <- 0 until PILLAR_WIDTH
       y <- -MOB_HOUSE_DEPTH until MOB_HOUSE_HEIGHT // dig underground
-      z <- 1 until PILLAR_WIDTH - 1
+      z <- 0 until PILLAR_WIDTH
     } base.getRelative(x, y, z).setType(Material.AIR)
 
     // hole
     for {
+      x <- 1 until PILLAR_WIDTH - 1
       y <- 0 until MOB_HOUSE_HEIGHT - 1
-      z <- 1 until PILLAR_WIDTH - 1
-    } base.getRelative(0, y, z).setType(Material.GLASS)
+    } base.getRelative(x, y, 0).setType(Material.AIR)
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
