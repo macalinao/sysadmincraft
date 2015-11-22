@@ -56,7 +56,20 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
    * The fence replaces the base of the tower with air and a fence
    */
   private def setupFence(): Unit = {
-    // cyrus
+    //set all of the blocks in bottom 4 rows of the pillar to glass
+    for{
+      z <- 0 until 4
+      x <- 0 until PILLAR_WIDTH
+      y <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.GLASS)
+
+    //then make a hole inside those blocks to house the mobs
+    for{
+      z <- 0 until 4
+      x <- 1 until PILLAR_WIDTH - 1
+      y <- 0 until PILLAR_WIDTH - 1
+    } base.getRelative(x, y, z).setType(Material.AIR)
+    return null
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =

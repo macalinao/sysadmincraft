@@ -1,5 +1,0 @@
----
-- hosts: ian@sysadmincraft-33yj7t51.cloudapp.net
-  tasks:
-    - name: Unarchive tarball onto remote
-      unarchive: src=../target/package.tar.gz dest=.
