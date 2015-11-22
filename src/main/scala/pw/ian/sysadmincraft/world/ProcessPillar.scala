@@ -2,8 +2,8 @@ package pw.ian.sysadmincraft.world
 
 import org.bukkit.Material
 import org.bukkit.block.{Sign, Block}
-import pw.ian.sysadmincraft.Process
 import pw.ian.sysadmincraft.world.WorldConstants._
+import pw.ian.sysadmincraft.system.Process
 
 case class ProcessPillar(base: Block, var process: Process) {
 
@@ -12,7 +12,7 @@ case class ProcessPillar(base: Block, var process: Process) {
 
   def update(process: Process) = {
     assert(this.process.id == process.id)
-    val newHeight = memToHeight(process.memoryUsage)
+    val newHeight = memToHeight(process.totalMemory)
     if (newHeight > height) {
       construct(height + 1, newHeight, Material.GOLD_BLOCK)
     } else {
@@ -32,7 +32,7 @@ case class ProcessPillar(base: Block, var process: Process) {
     val block = base.getRelative(1, 2, -1)
     block.setType(Material.SIGN)
     val sign = block.getState.asInstanceOf[Sign]
-    // sign.setLine(0, process.name)
+    sign.setLine(0, process.name)
     sign.update()
   }
 

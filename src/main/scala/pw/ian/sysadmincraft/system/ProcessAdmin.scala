@@ -1,6 +1,12 @@
 package pw.ian.sysadmincraft.system
 
-case class Process(id: Int, realMemory: Long, virtualMemory: Long, name: String)
+import sys.process._
+
+case class Process(id: Int, realMemory: Long, virtualMemory: Long, name: String) {
+
+   def totalMemory = realMemory + virtualMemory
+
+}
 
 object ProcessAdmin {
 
@@ -13,7 +19,8 @@ object ProcessAdmin {
    }
 
    private def findUserProcesses {
-      val rawProcessOutput = "ps axco user,pid,rss,vsz,command" " !!
+      val rawProcessOutput = "ps axco user,pid,rss,vsz,command" !!
+
       rawProcessOutput.split('\n').tail.map(_.split(' ').filter(!_.isEmpty))
          .filter(!_ (0).startsWith("root"))
          .filter(!_ (0).startsWith("_"))
