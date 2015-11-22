@@ -1,7 +1,7 @@
 package pw.ian.sysadmincraft
 
 import pw.ian.sysadmincraft.commands.{TopCommand, PgrepCommand}
-import pw.ian.sysadmincraft.listeners.{KillListener, JoinListener}
+import pw.ian.sysadmincraft.listeners.{KillListener, PlayerListener}
 
 import scala.sys.process._
 import org.bukkit.World
@@ -18,7 +18,7 @@ class SysAdmincraft extends JavaPlugin {
     world = PillarWorldCreator.create("sysadmincraft")
     pillarManager = PillarManager(this, world)
     pillarManager.initPillars()
-    getServer.getPluginManager.registerEvents(new JoinListener(this), this)
+    getServer.getPluginManager.registerEvents(new PlayerListener(this), this)
     getServer.getPluginManager.registerEvents(new KillListener(this), this)
     getCommand("top").setExecutor(TopCommand(this))
     getCommand("pgrep").setExecutor(PgrepCommand(this))
