@@ -11,7 +11,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   update(process)
 
   def update(process: SysProcess) = {
-    assert(this.process.id == process.id)
+    assert(this.process.name == process.name)
     val newHeight = memToHeight(process.totalMemory)
     if (newHeight > height) {
       construct(height + 1, newHeight, Material.GOLD_BLOCK)

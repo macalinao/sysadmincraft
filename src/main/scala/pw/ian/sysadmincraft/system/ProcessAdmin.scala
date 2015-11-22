@@ -6,7 +6,7 @@ case class SysProcess(ids: Set[Int], realMemory: Long, virtualMemory: Long, name
 
   def totalMemory = realMemory + virtualMemory
 
-  def kill = ids.foreach(ProcessAdmin.kill)
+  def kill() = ids.foreach(ProcessAdmin.kill)
 
 }
 
