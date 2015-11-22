@@ -14,4 +14,6 @@ object WorldConstants {
 
   val PILLAR_DISTANCE = PILLAR_WIDTH + PATHWAY_WIDTH
 
+  val MOB_HOUSE_HEIGHT = 3
+
 }
