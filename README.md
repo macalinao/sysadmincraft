@@ -1,5 +1,7 @@
 # sysadmincraft
 
+[![Build Status](https://travis-ci.org/simplyianm/sysadmincraft.svg)](https://travis-ci.org/simplyianm/sysadmincraft)
+
 Admin your server in Minecraft!
 
 ## Running
