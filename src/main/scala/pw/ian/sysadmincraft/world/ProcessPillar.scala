@@ -18,7 +18,7 @@ case class ProcessPillar(base: Block, var process: Process) {
     } else {
       destruct(newHeight + 1, height)
     }
-    updateStats
+    updateStats()
     this.process = process
     this.height = newHeight
   }
@@ -28,7 +28,7 @@ case class ProcessPillar(base: Block, var process: Process) {
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
-  private def updateStats: Unit = {
+  private def updateStats(): Unit = {
     val block = base.getRelative(1, 2, -1)
     block.setType(Material.SIGN)
     val sign = block.getState.asInstanceOf[Sign]
