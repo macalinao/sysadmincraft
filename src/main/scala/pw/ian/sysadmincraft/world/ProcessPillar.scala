@@ -2,6 +2,7 @@ package pw.ian.sysadmincraft.world
 
 import org.bukkit.Material
 import org.bukkit.block.{Sign, Block}
+import org.bukkit.entity.LivingEntity
 import pw.ian.sysadmincraft.system.SysProcess
 import pw.ian.sysadmincraft.world.WorldConstants._
 
@@ -36,6 +37,26 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     val sign = block.getState.asInstanceOf[Sign]
     sign.setLine(0, process.name)
     sign.update()
+  }
+
+  /**
+   * Spawns a mob that represents this process
+   *
+   * Should be:
+   * - have name of process as name
+   * - be a different mob depending on memory size
+   *
+   * @return the entity
+   */
+  private def setupMob(): LivingEntity = {
+    return null // cyrus
+  }
+
+  /**
+   * The fence replaces the base of the tower with air and a fence
+   */
+  private def setupFence(): Unit = {
+    // cyrus
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
