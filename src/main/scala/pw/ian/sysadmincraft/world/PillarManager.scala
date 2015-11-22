@@ -1,5 +1,8 @@
 package pw.ian.sysadmincraft.world
 
+
+import java.util.UUID
+
 import org.bukkit.World
 import pw.ian.sysadmincraft.system.{SysProcess, ProcessAdmin}
 import pw.ian.sysadmincraft.SysAdmincraft
@@ -13,7 +16,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
   var taken = Set[Int]()
 
   def initPillars(): List[ProcessPillar] = {
-    ProcessAdmin.processes.values.zipWithIndex.map { case (process, index) =>
+    ProcessAdmin.processes.values.toList.sortBy(-_.totalMemory).zipWithIndex.map { case (process, index) =>
       buildPillar(index, process)
     }.toList
   }
@@ -25,6 +28,10 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
         case None => buildPillar(nextFreeIndex, process)
       }
     }
+    // Destroy pillars that are missing
+    (pillars.keySet &~ processes.map(_.name).toSet).foreach { name =>
+      destroyPillar(pillars.get(name).get)
+    }
   }
 
   def buildPillar(index: Int, process: SysProcess) = {
@@ -34,10 +41,18 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     pillar
   }
 
+  def handleDeath(name: String): Unit = {
+    pillars.get(name) match {
+      case Some(pillar) => destroyPillar(pillar)
+      case None =>
+    }
+  }
+
   def destroyPillar(pillar: ProcessPillar) = {
     taken -= pillar.index
     pillars -= pillar.process.name
-    pillar.kill()
+    pillar.destroy()
+    plugin.getServer.broadcastMessage(s"Process ${pillar.process.name} has been killed.")
   }
 
   private def nextFreeIndex: Int = Stream.from(0).find(!taken.contains(_)).get

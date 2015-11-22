@@ -2,6 +2,7 @@ package pw.ian.sysadmincraft.world
 
 import org.bukkit.Material
 import org.bukkit.block.{Sign, Block}
+import org.bukkit.entity.{EntityType, LivingEntity}
 import pw.ian.sysadmincraft.system.SysProcess
 import pw.ian.sysadmincraft.world.WorldConstants._
 
@@ -9,6 +10,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   var height = 0
   update(process)
+  val mob = setupMob()
 
   def update(process: SysProcess) = {
     assert(this.process.name == process.name)
@@ -18,24 +20,94 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } else {
       destruct(newHeight + 1, height)
     }
+
+    for {
+      x <- 0 until PILLAR_WIDTH
+      y <- 0 to 2
+      z <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.AIR)
+
+    setupFence()
     updateStats()
     this.process = process
     this.height = newHeight
   }
 
-  def kill() = process.kill()
+  def destroy() = {
+    destruct(0, height)
+    base.getRelative(0, 2, -1).setType(Material.AIR)
+    kill()
+  }
+
+  def kill() = {
+    mob.remove()
+    process.kill()
+  }
 
   private def memToHeight(memoryUsage: Long) = {
-    Math.max(WorldConstants.MAX_HEIGHT,
+    Math.min(WorldConstants.MAX_HEIGHT,
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
   private def updateStats(): Unit = {
-    val block = base.getRelative(1, 2, -1)
-    block.setType(Material.SIGN)
+    val block = base.getRelative(0, 2, -1)
+    if (block.getType != Material.WALL_SIGN) {
+      block.setType(Material.WALL_SIGN)
+    }
     val sign = block.getState.asInstanceOf[Sign]
     sign.setLine(0, process.name)
-    sign.update()
+    sign.setLine(1, "Real: " + process.realMemory)
+    sign.setLine(2, "Virtual: " + process.virtualMemory)
+    sign.setLine(3, "Count: " + process.ids.size)
+    sign.update(true)
+  }
+
+  /**
+   * Spawns a mob that represents this process
+   *
+   * Should be:
+   * - have name of process as name
+   * - be a different mob depending on memory size
+   *
+   * @return the entity
+   */
+  private def setupMob() = {
+    val entity = base.getWorld.spawnEntity(base.getLocation.add(PILLAR_WIDTH / 2, -MOB_HOUSE_DEPTH, PILLAR_WIDTH / 2), process.memAmt match {
+      case x if x <= 0.2 => EntityType.CHICKEN
+      case x if x <= 0.4 => EntityType.PIG
+      case x if x <= 0.6 => EntityType.ZOMBIE
+      case x if x <= 0.8 => EntityType.SPIDER
+      case _ => EntityType.BLAZE
+    }).asInstanceOf[LivingEntity]
+    entity.setCustomName(process.name)
+    entity.setCustomNameVisible(true)
+    entity
+  }
+
+  /**
+   * The fence replaces the base of the tower with air and a fence
+   */
+  private def setupFence(): Unit = {
+    //set all of the blocks in bottom 4 rows of the pillar to glass
+    for {
+      x <- 0 until PILLAR_WIDTH
+      y <- 0 until MOB_HOUSE_HEIGHT
+      z <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.GLASS)
+
+    // Bottom hole
+    for {
+      x <- 0 until PILLAR_WIDTH
+      y <- -MOB_HOUSE_DEPTH until 0 // dig underground
+      z <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.AIR)
+
+    // Top hole
+    for {
+      x <- 1 until PILLAR_WIDTH - 1
+      y <- 0 until MOB_HOUSE_HEIGHT - 1
+      z <- 0 until PILLAR_WIDTH - 1
+    } base.getRelative(x, y, z).setType(Material.AIR)
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
