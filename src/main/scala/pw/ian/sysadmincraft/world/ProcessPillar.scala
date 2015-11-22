@@ -45,8 +45,8 @@ case class ProcessPillar(base: Block, var process: Process) {
   private def blocks(startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
       level <- startHeight to endHeight
-      x <- base.getX to base.getX + PILLAR_WIDTH
-      z <- base.getZ to base.getZ + PILLAR_WIDTH
+      x <- base.getX until base.getX + PILLAR_WIDTH
+      z <- base.getZ until base.getZ + PILLAR_WIDTH
     } yield base.getWorld.getBlockAt(x, level + START_HEIGHT, z)
 
 }
