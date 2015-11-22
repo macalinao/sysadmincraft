@@ -23,6 +23,10 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     this.height = newHeight
   }
 
+  def kill = {
+    process.kill()
+  }
+
   private def memToHeight(memoryUsage: Long) = {
     Math.max(WorldConstants.MAX_HEIGHT,
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
