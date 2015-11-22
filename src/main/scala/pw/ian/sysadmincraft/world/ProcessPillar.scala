@@ -59,13 +59,16 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
    * @return the entity
    */
   private def setupMob(): LivingEntity = {
-    base.getWorld.spawnEntity(base.getLocation.add(PILLAR_WIDTH / 2, 0, PILLAR_WIDTH / 2), process.memAmt match {
+    val entity = base.getWorld.spawnEntity(base.getLocation.add(PILLAR_WIDTH / 2, 0, PILLAR_WIDTH / 2), process.memAmt match {
       case x if x <= 0.2 => EntityType.CHICKEN
       case x if x <= 0.4 => EntityType.PIG
       case x if x <= 0.6 => EntityType.ZOMBIE
       case x if x <= 0.8 => EntityType.SPIDER
       case _ => EntityType.BLAZE
     }).asInstanceOf[LivingEntity]
+    entity.setCustomName(process.name)
+    entity.setCustomNameVisible(true)
+    entity
   }
 
   /**
