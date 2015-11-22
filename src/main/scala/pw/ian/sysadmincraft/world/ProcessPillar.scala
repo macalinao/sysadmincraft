@@ -20,6 +20,13 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } else {
       destruct(newHeight + 1, height)
     }
+
+    for {
+      x <- base.getX until base.getX + PILLAR_WIDTH
+      y <- 0 to 2
+      z <- base.getZ until base.getZ + PILLAR_WIDTH
+    } base.getWorld.getBlockAt(x, y, z).setType(Material.AIR)
+
     setupFence()
     updateStats()
     this.process = process
