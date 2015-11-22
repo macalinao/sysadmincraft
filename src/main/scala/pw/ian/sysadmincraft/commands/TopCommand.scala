@@ -15,7 +15,7 @@ case class TopCommand(plugin: SysAdmincraft) extends CommandExecutor {
     }
     val player = sender.asInstanceOf[Player]
     player.teleport(new Location(plugin.world, PILLAR_WIDTH + PATHWAY_WIDTH / 2,
-      MAX_HEIGHT / 2, PILLAR_WIDTH + PATHWAY_WIDTH / 2, 90f, 180f))
+      MAX_HEIGHT / 2, PILLAR_WIDTH + PATHWAY_WIDTH / 2, 90f, 0f))
     true
   }
 
