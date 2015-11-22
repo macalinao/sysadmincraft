@@ -6,7 +6,7 @@ case class SysProcess(ids: Set[Int], realMemory: Long, virtualMemory: Long, name
 
   def totalMemory = realMemory + virtualMemory
 
-  def kill() = ids.foreach(ProcessAdmin.kill)
+  def kill() = ids.foreach(x => s"kill -9 $x" !)
 
 }
 
@@ -18,10 +18,6 @@ object ProcessAdmin {
           Set(x(0).toInt), x(1).toLong, x(2).toLong, x(3).toString
         )
     }.toMap
-  }
-
-  def kill(processId: Int) = {
-
   }
 
   private def findUserProcesses : Array[Array[String]] = {
