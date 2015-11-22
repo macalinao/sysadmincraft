@@ -7,12 +7,12 @@ import pw.ian.sysadmincraft.world.WorldConstants._
 
 case class PillarManager(plugin: SysAdmincraft, world: World) {
 
-  // process.id -> pillar
-  var pillars = Map[Int, ProcessPillar]()
+  // process.name -> pillar
+  var pillars = Map[String, ProcessPillar]()
 
   var taken = Set[Int]()
 
-  def initPillars: List[ProcessPillar] = {
+  def initPillars(): List[ProcessPillar] = {
     ProcessAdmin.processes.values.zipWithIndex.map { case (process, index) =>
       buildPillar(index, process)
     }.toList
@@ -20,7 +20,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
 
   def refresh(processes: Iterable[SysProcess]) = {
     processes.foreach { process =>
-      pillars.get(process.id) match {
+      pillars.get(process.name) match {
         case Some(pillar) => pillar.update(process)
         case None => buildPillar(nextFreeIndex, process)
       }
@@ -29,7 +29,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
 
   def buildPillar(index: Int, process: SysProcess) = {
     val pillar = ProcessPillar(index, blockFromIndex(index), process)
-    pillars += process.id -> pillar
+    pillars += process.name -> pillar
     taken += index
     pillar
   }
