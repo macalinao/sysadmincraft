@@ -1,6 +1,6 @@
 package pw.ian.sysadmincraft.system
 
-case class Process(id: Int, realMemory: Long, virtualMemory: Long, processName: String)
+case class Process(id: Int, realMemory: Long, virtualMemory: Long, name: String)
 
 object ProcessAdmin {
 
