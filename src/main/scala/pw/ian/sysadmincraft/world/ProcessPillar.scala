@@ -18,7 +18,7 @@ case class ProcessPillar(base: Block, var process: Process) {
     } else {
       destruct(newHeight + 1, height)
     }
-    updateStats
+    updateStats()
     this.process = process
     this.height = newHeight
   }
@@ -28,7 +28,7 @@ case class ProcessPillar(base: Block, var process: Process) {
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
-  private def updateStats: Unit = {
+  private def updateStats(): Unit = {
     val block = base.getRelative(1, 2, -1)
     block.setType(Material.SIGN)
     val sign = block.getState.asInstanceOf[Sign]
@@ -37,20 +37,16 @@ case class ProcessPillar(base: Block, var process: Process) {
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
-    PillarUtil.blocks(base, startHeight, endHeight).foreach(_.setType(blockType))
+    blocks(startHeight, endHeight).foreach(_.setType(blockType))
 
   private def destruct(startHeight: Int, endHeight: Int): Unit =
-    PillarUtil.blocks(base, startHeight, endHeight).foreach(_.setType(Material.AIR))
+    blocks(startHeight, endHeight).foreach(_.setType(Material.AIR))
 
-}
-
-object PillarUtil {
-
-  def blocks(base: Block, startHeight: Int, endHeight: Int): IndexedSeq[Block] =
+  private def blocks(startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
       level <- startHeight to endHeight
-      x <- base.getX to base.getX + PILLAR_WIDTH
-      z <- base.getZ to base.getZ + PILLAR_WIDTH
+      x <- base.getX until base.getX + PILLAR_WIDTH
+      z <- base.getZ until base.getZ + PILLAR_WIDTH
     } yield base.getWorld.getBlockAt(x, level + START_HEIGHT, z)
 
 }
