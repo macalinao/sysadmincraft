@@ -4,25 +4,30 @@ import org.bukkit.Material
 import org.bukkit.block.Block
 import pw.ian.sysadmincraft.Process
 
-case class ProcessPillar(base: Block, var process: Process) {
+class ProcessPillar(base: Block, var process: Process) {
 
   var height = 0
-
-  def init = update(process)
+  update(process)
 
   def update(process: Process) = {
     assert(this.process.id == process.id)
+    val newHeight = memToHeight(process.memoryUsage)
+    form(newHeight)
     this.process = process
+    this.height = newHeight
   }
 
-  private def form(height: Int): Unit = {
-    if (height == 0) {
-      formInitial()
-      return
+  private def memToHeight(memoryUsage: Long) = {
+    Math.max(WorldConstants.MAX_HEIGHT,
+      ((memoryUsage.toDouble / WorldConstants.MAX_MEMORY) * WorldConstants.MAX_HEIGHT).toInt)
+  }
+
+  private def form(newHeight: Int): Unit = {
+    if (newHeight > height) {
+      PillarUtil.construct(base, height + 1, newHeight, Material.GOLD_BLOCK)
+    } else {
+      PillarUtil.destruct(base, newHeight + 1, height)
     }
-  }
-
-  private def formInitial(): Unit = {
   }
 
 }

@@ -1,0 +1,11 @@
+package pw.ian.sysadmincraft.world
+
+object WorldConstants {
+
+  val START_HEIGHT = 10
+
+  val MAX_HEIGHT = 256 - START_HEIGHT
+
+  val MAX_MEMORY = 8L * 1024 * 1024 * 1024 // 8GB
+
+}
