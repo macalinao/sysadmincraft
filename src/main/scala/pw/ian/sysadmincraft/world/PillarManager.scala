@@ -30,7 +30,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     }
     // Destroy pillars that are missing
     (pillars.keySet &~ processes.map(_.name).toSet).foreach { name =>
-      destroyPillar(pillars.get(name).get)
+      removePillar(pillars.get(name).get)
     }
   }
 
@@ -49,10 +49,14 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
   }
 
   def destroyPillar(pillar: ProcessPillar) = {
+    removePillar(pillar)
+    plugin.getServer.broadcastMessage(s"Process ${pillar.process.name} has been killed.")
+  }
+
+  def removePillar(pillar: ProcessPillar) = {
     taken -= pillar.index
     pillars -= pillar.process.name
     pillar.destroy()
-    plugin.getServer.broadcastMessage(s"Process ${pillar.process.name} has been killed.")
   }
 
   private def nextFreeIndex: Int = Stream.from(0).find(!taken.contains(_)).get
