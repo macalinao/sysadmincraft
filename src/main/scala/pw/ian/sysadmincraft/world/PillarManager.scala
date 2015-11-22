@@ -34,6 +34,12 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     pillar
   }
 
+  def destroyPillar(pillar: ProcessPillar) = {
+    taken -= pillar.index
+    pillars -= pillar.process.name
+    pillar.kill()
+  }
+
   private def nextFreeIndex: Int = Stream.from(0).find(!taken.contains(_)).get
 
   private def blockFromIndex(index: Int) = {
