@@ -1,6 +1,9 @@
 package pw.ian.sysadmincraft.listeners
 
+import org.bukkit.entity.EntityType
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.{EventHandler, Listener}
 import org.bukkit.inventory.ItemStack
@@ -20,6 +23,13 @@ case class PlayerListener(plugin: SysAdmincraft) extends Listener {
   @EventHandler
   def onBlockBreak(event: BlockBreakEvent): Unit = {
     event.setCancelled(true)
+  }
+
+  @EventHandler
+  def onCreatureSpawn(event: CreatureSpawnEvent): Unit = {
+    if (event.getSpawnReason == SpawnReason.NATURAL || event.getEntityType == EntityType.SLIME) {
+      event.setCancelled(true)
+    }
   }
 
 }
