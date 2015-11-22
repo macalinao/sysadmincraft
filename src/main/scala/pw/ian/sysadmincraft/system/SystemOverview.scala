@@ -13,7 +13,7 @@ object SystemOverview {
   }
 
   def totalMem(): Int = {
-    (("ps -caxm -orss" !!).split("\n").tail.map(_.trim.toLong).sum / 1024).toInt
+    (("ps caxm -orss" !!).split("\n").tail.map(_.trim.toLong).sum / 1024).toInt
   }
 
 }
