@@ -11,7 +11,7 @@ import org.bukkit.{Material, GameMode, Location}
 import pw.ian.sysadmincraft.SysAdmincraft
 import pw.ian.sysadmincraft.world.WorldConstants._
 
-case class PlayerListener(plugin: SysAdmincraft) extends Listener {
+case class MiscListener(plugin: SysAdmincraft) extends Listener {
 
   @EventHandler
   def onPlayerJoin(event: PlayerJoinEvent): Unit = {

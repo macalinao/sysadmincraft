@@ -1,6 +1,6 @@
-package pw.ian.sysadmincraft.world
+package pw.ian.sysadmincraft.tasks
 
-import org.bukkit.scheduler.{BukkitRunnable, BukkitTask}
+import org.bukkit.scheduler.BukkitRunnable
 import pw.ian.sysadmincraft.SysAdmincraft
 import pw.ian.sysadmincraft.system.ProcessAdmin
 
