@@ -50,16 +50,26 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   }
 
   private def updateStats(): Unit = {
-    val block = base.getRelative(0, 2, -1)
-    if (block.getType != Material.WALL_SIGN) {
-      block.setType(Material.WALL_SIGN)
+    val leftBlock = base.getRelative(PILLAR_WIDTH - 1, 2, -1)
+    if (leftBlock.getType != Material.WALL_SIGN) {
+      leftBlock.setType(Material.WALL_SIGN)
     }
-    val sign = block.getState.asInstanceOf[Sign]
-    sign.setLine(0, process.name)
-    sign.setLine(1, "Real: " + process.realMemory)
-    sign.setLine(2, "Virtual: " + process.virtualMemory)
-    sign.setLine(3, "Count: " + process.ids.size)
-    sign.update(true)
+    val leftSign = leftBlock.getState.asInstanceOf[Sign]
+    leftSign.setLine(0, process.name)
+    leftSign.setLine(1, "Real: " + process.realMemory)
+    leftSign.setLine(2, "Virtual: " + process.virtualMemory)
+    leftSign.setLine(3, "Count: " + process.ids.size)
+    leftSign.update(true)
+    val rightBlock = base.getRelative(0, 2, -1)
+    if (rightBlock.getType != Material.WALL_SIGN) {
+      rightBlock.setType(Material.WALL_SIGN)
+    }
+    val rightSign = rightBlock.getState.asInstanceOf[Sign]
+    rightSign.setLine(0, f"CPU %: ${process.cpuPct}%.2f")
+    rightSign.setLine(1, f"MEM %: ${process.memPct}%.2f")
+    rightSign.setLine(2, s"Stat: ${process.stat}")
+    rightSign.setLine(3, s"Time: ${process.time}")
+    rightSign.update(true)
   }
 
   /**
