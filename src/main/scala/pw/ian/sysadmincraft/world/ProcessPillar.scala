@@ -9,6 +9,7 @@ import pw.ian.sysadmincraft.world.WorldConstants._
 case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   var height = 0
+  val mob = setupMob()
   update(process)
 
   def update(process: SysProcess) = {
@@ -19,6 +20,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } else {
       destruct(newHeight + 1, height)
     }
+    setupFence()
     updateStats()
     this.process = process
     this.height = newHeight
@@ -36,6 +38,9 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     block.setType(Material.SIGN)
     val sign = block.getState.asInstanceOf[Sign]
     sign.setLine(0, process.name)
+    sign.setLine(1, "Real: " + process.realMemory)
+    sign.setLine(2, "Virtual: " + process.virtualMemory)
+    sign.setLine(3, "Count: " + process.ids.size)
     sign.update()
   }
 
