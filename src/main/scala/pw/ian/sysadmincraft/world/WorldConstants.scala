@@ -2,7 +2,7 @@ package pw.ian.sysadmincraft.world
 
 object WorldConstants {
 
-  val START_HEIGHT = 10
+  val START_HEIGHT = 16
 
   val MAX_HEIGHT = 256 - START_HEIGHT
 
