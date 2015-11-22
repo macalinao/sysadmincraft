@@ -20,10 +20,6 @@ object ProcessAdmin {
     }.toMap
   }
 
-  def kill(processId: Int) = {
-
-  }
-
   private def findUserProcesses : Array[Array[String]] = {
     val rawProcessOutput = "ps axco user,pid,rss,vsz,command" !!
 
