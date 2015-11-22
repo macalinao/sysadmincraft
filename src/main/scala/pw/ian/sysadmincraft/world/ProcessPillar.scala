@@ -37,16 +37,12 @@ case class ProcessPillar(base: Block, var process: Process) {
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
-    PillarUtil.blocks(base, startHeight, endHeight).foreach(_.setType(blockType))
+    blocks(startHeight, endHeight).foreach(_.setType(blockType))
 
   private def destruct(startHeight: Int, endHeight: Int): Unit =
-    PillarUtil.blocks(base, startHeight, endHeight).foreach(_.setType(Material.AIR))
+    blocks(startHeight, endHeight).foreach(_.setType(Material.AIR))
 
-}
-
-object PillarUtil {
-
-  def blocks(base: Block, startHeight: Int, endHeight: Int): IndexedSeq[Block] =
+  private def blocks(startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
       level <- startHeight to endHeight
       x <- base.getX to base.getX + PILLAR_WIDTH
