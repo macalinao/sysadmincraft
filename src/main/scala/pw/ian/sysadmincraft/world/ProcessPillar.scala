@@ -22,10 +22,10 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     }
 
     for {
-      x <- base.getX until base.getX + PILLAR_WIDTH
+      x <- 0 until PILLAR_WIDTH
       y <- 0 to 2
-      z <- base.getZ until base.getZ + PILLAR_WIDTH
-    } base.getWorld.getBlockAt(x, y, z).setType(Material.AIR)
+      z <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.AIR)
 
     setupFence()
     updateStats()
@@ -38,10 +38,12 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     kill()
   }
 
-  def kill() = process.kill()
+  def kill() = {
+    process.kill()
+  }
 
   private def memToHeight(memoryUsage: Long) = {
-    Math.max(WorldConstants.MAX_HEIGHT,
+    Math.min(WorldConstants.MAX_HEIGHT,
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
   }
 
