@@ -41,7 +41,7 @@ object ProcessAdmin {
         x(6) // time
       ))
       .groupBy(_._1) // Group by process name
-      .mapValues(_.map(_._2)) //
+      .mapValues(_.map(_._2))
       .mapValues {
         _.foldLeft((Set[Int](), 0L, 0L, 0d, 0d, "", "")) { (acc, v) =>
           (acc._1 + v._1, acc._2 + v._2, acc._3 + v._3,
