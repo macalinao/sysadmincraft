@@ -21,7 +21,7 @@ case class PgrepCommand(plugin: SysAdmincraft) extends CommandExecutor {
 
     val search = args.toList.mkString(" ")
     plugin.pillarManager.pillars.keys.find { key =>
-      key.startsWith(search)
+      key.toLowerCase.startsWith(search.toLowerCase)
     } match {
       case Some(key) => {
         val pillar = plugin.pillarManager.pillars.get(key).get

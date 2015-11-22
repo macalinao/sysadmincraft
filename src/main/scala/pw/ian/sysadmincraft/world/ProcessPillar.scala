@@ -65,8 +65,8 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
       rightBlock.setType(Material.WALL_SIGN)
     }
     val rightSign = rightBlock.getState.asInstanceOf[Sign]
-    rightSign.setLine(0, f"CPU %: ${process.cpuPct}%.2f")
-    rightSign.setLine(1, f"MEM %: ${process.memPct}%.2f")
+    rightSign.setLine(0, f"CPU %%: ${process.cpuPct}%.2f")
+    rightSign.setLine(1, f"MEM %%: ${process.memPct}%.2f")
     rightSign.setLine(2, s"Stat: ${process.stat}")
     rightSign.setLine(3, s"Time: ${process.time}")
     rightSign.update(true)
