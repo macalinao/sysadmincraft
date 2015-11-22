@@ -1,5 +1,6 @@
 package pw.ian.sysadmincraft
 
+import pw.ian.sysadmincraft.commands.{TopCommand, PgrepCommand}
 import pw.ian.sysadmincraft.listeners.{KillListener, JoinListener}
 
 import scala.sys.process._
