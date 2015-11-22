@@ -7,3 +7,5 @@ commands:
     description: Top
   pgrep:
     description: pgrep
+  ps:
+    description: ps
