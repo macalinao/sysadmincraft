@@ -4,7 +4,8 @@ import pw.ian.sysadmincraft.world.WorldConstants
 
 import sys.process._
 
-case class SysProcess(ids: Set[Int], realMemory: Long, virtualMemory: Long, name: String) {
+case class SysProcess(name: String, ids: Set[Int], realMemory: Long, virtualMemory: Long,
+                      cpuPct: Double, memPct: Double, stat: String, time: String) {
 
   def totalMemory = realMemory + virtualMemory
 
@@ -20,14 +21,12 @@ object ProcessAdmin {
 
   def processes(): List[SysProcess] = {
     findUserProcesses().map { case(key, value) =>
-      SysProcess(value._1, value._2, value._3, key)
+      SysProcess(key, value._1, value._2, value._3, value._4, value._5, value._6, value._7)
     }.toList
   }
 
   private def findUserProcesses(): Map[String, (Set[Int], Long, Long, Double, Double, String, String)] = {
-    val rawProcessOutput = "ps axco user,pid,rss,vsz,%cpu,%mem,stat,time,command" !!
-
-    rawProcessOutput.split('\n').tail.map(_.split(' ').filter(!_.isEmpty))
+    rawProcessOutput().split('\n').tail.map(_.split(' ').filter(!_.isEmpty))
       .filter(!_(0).startsWith("root"))
       .filter(!_(0).startsWith("_"))
       .map(_.tail)
@@ -48,6 +47,10 @@ object ProcessAdmin {
           acc._4 + v._4, acc._5 + v._5, v._6, v._7)
         }
       }
+  }
+
+  private def rawProcessOutput(): String = {
+    "ps axco user,pid,rss,vsz,%cpu,%mem,stat,time,command" !!
   }
 
 
