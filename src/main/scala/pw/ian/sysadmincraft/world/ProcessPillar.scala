@@ -2,15 +2,15 @@ package pw.ian.sysadmincraft.world
 
 import org.bukkit.Material
 import org.bukkit.block.{Sign, Block}
-import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.{EntityType, LivingEntity}
 import pw.ian.sysadmincraft.system.SysProcess
 import pw.ian.sysadmincraft.world.WorldConstants._
 
 case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   var height = 0
-  val mob = setupMob()
   update(process)
+  val mob = setupMob()
 
   def update(process: SysProcess) = {
     assert(this.process.name == process.name)
@@ -59,7 +59,13 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
    * @return the entity
    */
   private def setupMob(): LivingEntity = {
-    return null // cyrus
+    base.getWorld.spawnEntity(base.getLocation.add(PILLAR_WIDTH / 2, 0, PILLAR_WIDTH / 2), process.memAmt match {
+      case x if x <= 0.2 => EntityType.CHICKEN
+      case x if x <= 0.4 => EntityType.PIG
+      case x if x <= 0.6 => EntityType.ZOMBIE
+      case x if x <= 0.8 => EntityType.SPIDER
+      case _ => EntityType.BLAZE
+    }).asInstanceOf[LivingEntity]
   }
 
   /**

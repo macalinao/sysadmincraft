@@ -1,10 +1,14 @@
 package pw.ian.sysadmincraft.system
 
+import pw.ian.sysadmincraft.world.WorldConstants
+
 import sys.process._
 
 case class SysProcess(ids: Set[Int], realMemory: Long, virtualMemory: Long, name: String) {
 
   def totalMemory = realMemory + virtualMemory
+
+  def memAmt: Double = Math.max(totalMemory / WorldConstants.MAX_MEMORY, 1)
 
   def kill() = ids.foreach(x => s"kill -9 $x" !)
 
