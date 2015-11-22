@@ -5,7 +5,7 @@ import org.bukkit.block.{Sign, Block}
 import pw.ian.sysadmincraft.world.WorldConstants._
 import pw.ian.sysadmincraft.system.Process
 
-case class ProcessPillar(base: Block, var process: Process) {
+case class ProcessPillar(index: Int, base: Block, var process: Process) {
 
   var height = 0
   update(process)
