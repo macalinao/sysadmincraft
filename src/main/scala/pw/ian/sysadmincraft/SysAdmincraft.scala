@@ -19,6 +19,8 @@ class SysAdmincraft extends JavaPlugin {
     pillarManager.initPillars()
     getServer.getPluginManager.registerEvents(new JoinListener(this), this)
     getServer.getPluginManager.registerEvents(new KillListener(this), this)
+    getCommand("top").setExecutor(TopCommand(this))
+    getCommand("pgrep").setExecutor(PgrepCommand(this))
     new PillarUpdateTask(this).runTaskTimer(this, 100L, 100L)
   }
 
