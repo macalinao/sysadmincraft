@@ -20,6 +20,8 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } else {
       destruct(newHeight + 1, height)
     }
+    destroyCpu()
+    buildCpu(cpuToHeight(process.cpuPct))
     setupFence()
     updateStats()
     this.process = process
@@ -28,6 +30,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   def teardown() = {
     destruct(0, height)
+    destroyCpu()
     clearBase()
     base.getRelative(0, 2, -1).setType(Material.AIR)
   }
@@ -47,6 +50,10 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   private def memToHeight(memoryUsage: Long) = {
     Math.min(WorldConstants.MAX_HEIGHT,
       ((memoryUsage.toDouble / MAX_MEMORY) * MAX_HEIGHT).toInt)
+  }
+
+  private def cpuToHeight(cpuPct: Double): Int = {
+    (WorldConstants.MAX_HEIGHT * cpuPct / 100d).toInt
   }
 
   private def updateStats(): Unit = {
@@ -143,6 +150,22 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   private def destruct(startHeight: Int, endHeight: Int): Unit =
     blocks(startHeight, endHeight).foreach(_.setType(Material.AIR))
+
+  private def destroyCpu() = {
+    for {
+      x <- List(0, 3)
+      y <- 0 until MAX_HEIGHT
+      z <- List(0, 3)
+    } base.getRelative(x, y, z).setType(Material.AIR)
+  }
+
+  private def buildCpu(height: Int) = {
+    for {
+      x <- List(0, 3)
+      y <- 0 until height
+      z <- List(0, 3)
+    } base.getRelative(x, y, z).setType(Material.DIAMOND_BLOCK)
+  }
 
   private def blocks(startHeight: Int, endHeight: Int): IndexedSeq[Block] =
     for {
