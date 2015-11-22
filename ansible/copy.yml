@@ -1,0 +1,5 @@
+---
+- hosts: ian@sysadmincraft-33yj7t51.cloudapp.net
+  tasks:
+    - name: Copy plugin to remote
+      copy: src=../target/scala-2.11/SysAdmincraft.jar dest=./server/plugins/
