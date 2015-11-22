@@ -15,7 +15,7 @@ object ProcessAdmin {
   def processes: Map[Int, SysProcess] = {
     findUserProcesses.map { x =>
         x(0).toInt -> SysProcess(
-          List(x(0).toInt), x(1).toLong, x(2).toLong, x(3).toString
+          Set(x(0).toInt), x(1).toLong, x(2).toLong, x(3).toString
         )
     }.toMap
   }
