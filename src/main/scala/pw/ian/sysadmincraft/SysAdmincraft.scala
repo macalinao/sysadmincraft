@@ -1,6 +1,6 @@
 package pw.ian.sysadmincraft
 
-import pw.ian.sysadmincraft.commands.{TopCommand, PgrepCommand}
+import pw.ian.sysadmincraft.commands.{PsCommand, TopCommand, PgrepCommand}
 import pw.ian.sysadmincraft.listeners.{KillListener, MiscListener}
 import pw.ian.sysadmincraft.tasks.{PermaDayTask, PillarUpdateTask}
 
@@ -22,6 +22,7 @@ class SysAdmincraft extends JavaPlugin {
     getServer.getPluginManager.registerEvents(new KillListener(this), this)
     getServer.getPluginManager.registerEvents(new MiscListener(this), this)
     getCommand("pgrep").setExecutor(PgrepCommand(this))
+    getCommand("ps").setExecutor(PsCommand(this))
     getCommand("top").setExecutor(TopCommand(this))
     PermaDayTask(this).runTaskTimer(this, 100L, 100L)
     PillarUpdateTask(this).runTaskTimer(this, 100L, 100L)
