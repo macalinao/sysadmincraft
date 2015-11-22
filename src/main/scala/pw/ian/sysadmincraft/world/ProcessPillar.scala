@@ -20,7 +20,6 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } else {
       destruct(newHeight + 1, height)
     }
-
     setupFence()
     updateStats()
     this.process = process
@@ -29,6 +28,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   def destroy() = {
     destruct(0, height)
+    clearBase()
     base.getRelative(0, 2, -1).setType(Material.AIR)
     kill()
   }
@@ -104,6 +104,24 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     } base.getRelative(x, y, z).setType(Material.AIR)
   }
 
+  private def clearBase(): Unit = {
+
+    //set all of the blocks in bottom 4 rows of the pillar to air
+    for {
+      x <- 0 until PILLAR_WIDTH
+      y <- 0 until MOB_HOUSE_HEIGHT
+      z <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.AIR)
+
+    // Bottom hole
+    for {
+      x <- 0 until PILLAR_WIDTH
+      y <- -MOB_HOUSE_DEPTH until 0 // dig underground
+      z <- 0 until PILLAR_WIDTH
+    } base.getRelative(x, y, z).setType(Material.GRASS)
+
+  }
+
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
     blocks(startHeight, endHeight).foreach(_.setType(blockType))
 
@@ -115,6 +133,6 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
       level <- startHeight to endHeight
       x <- base.getX + PILLAR_PADDING until base.getX + PILLAR_WIDTH - PILLAR_PADDING
       z <- base.getZ + PILLAR_PADDING until base.getZ + PILLAR_WIDTH - PILLAR_PADDING
-    } yield base.getWorld.getBlockAt(x, level + START_HEIGHT, z)
+    } yield base.getWorld.getBlockAt(x, level + START_HEIGHT + MOB_HOUSE_HEIGHT - 1, z)
 
 }
