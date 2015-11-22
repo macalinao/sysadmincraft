@@ -1,5 +1,8 @@
 package pw.ian.sysadmincraft.world
 
+
+import java.util.UUID
+
 import org.bukkit.World
 import pw.ian.sysadmincraft.system.{SysProcess, ProcessAdmin}
 import pw.ian.sysadmincraft.SysAdmincraft
@@ -34,10 +37,17 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     pillar
   }
 
+  def handleDeath(uuid: UUID) = {
+    pillars.values.find(_.mob.getUniqueId == uuid) match {
+      case Some(pillar) => destroyPillar(pillar)
+    }
+  }
+
   def destroyPillar(pillar: ProcessPillar) = {
     taken -= pillar.index
     pillars -= pillar.process.name
-    pillar.kill()
+    pillar.destroy()
+    plugin.getServer.broadcastMessage(s"Process ${pillar.process.name} has been killed.")
   }
 
   private def nextFreeIndex: Int = Stream.from(0).find(!taken.contains(_)).get
