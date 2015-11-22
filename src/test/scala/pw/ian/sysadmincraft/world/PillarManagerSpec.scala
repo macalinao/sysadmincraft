@@ -1,5 +1,6 @@
+package pw.ian.sysadmincraft.world
+
 import org.specs2.mutable.Specification
-import pw.ian.sysadmincraft.world.PillarManagerUtils
 
 class PillarManagerSpec extends Specification {
 
