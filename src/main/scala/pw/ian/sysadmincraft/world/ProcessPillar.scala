@@ -10,7 +10,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   var height = 0
   update(process)
-  setupMob()
+  val mob = setupMob()
 
   def update(process: SysProcess) = {
     assert(this.process.name == process.name)
@@ -40,6 +40,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   }
 
   def kill() = {
+    mob.remove()
     process.kill()
   }
 
@@ -80,6 +81,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     }).asInstanceOf[LivingEntity]
     entity.setCustomName(process.name)
     entity.setCustomNameVisible(true)
+    entity
   }
 
   /**
