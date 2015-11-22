@@ -47,7 +47,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   private def updateStats(): Unit = {
     val block = base.getRelative(1, 2, -1)
-    block.setType(Material.SIGN)
+    block.setType(Material.WALL_SIGN)
     val sign = block.getState.asInstanceOf[Sign]
     sign.setLine(0, process.name)
     sign.setLine(1, "Real: " + process.realMemory)
