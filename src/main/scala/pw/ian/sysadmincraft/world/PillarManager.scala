@@ -50,13 +50,14 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
 
   def destroyPillar(pillar: ProcessPillar) = {
     removePillar(pillar)
+    pillar.kill()
     plugin.getServer.broadcastMessage(s"Process ${pillar.process.name} has been killed.")
   }
 
   def removePillar(pillar: ProcessPillar) = {
     taken -= pillar.index
     pillars -= pillar.process.name
-    pillar.destroy()
+    pillar.teardown()
   }
 
   private def nextFreeIndex: Int = Stream.from(0).find(!taken.contains(_)).get

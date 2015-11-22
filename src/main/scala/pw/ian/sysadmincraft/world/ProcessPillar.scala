@@ -26,11 +26,10 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     this.height = newHeight
   }
 
-  def destroy() = {
+  def teardown() = {
     destruct(0, height)
     clearBase()
     base.getRelative(0, 2, -1).setType(Material.AIR)
-    kill()
   }
 
   def kill() = {
