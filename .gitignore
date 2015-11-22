@@ -20,3 +20,5 @@ project/plugins/project/
 .worksheet
 .idea/
 .swp
+
+server/
