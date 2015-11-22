@@ -15,12 +15,15 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
   }
 
   private def blockFromIndex(index: Int) = {
-    val i = spiralIndex(index)
+    val i = PillarManagerUtils.spiralIndex(index)
     world.getBlockAt(i._1 * PILLAR_DISTANCE + (PILLAR_DISTANCE / 2),
       START_HEIGHT, i._2 * PILLAR_DISTANCE + (PILLAR_DISTANCE / 2))
   }
+}
 
-  private def spiralIndex(n: Int): (Int, Int) = {
+object PillarManagerUtils {
+
+  def spiralIndex(n: Int): (Int, Int) = {
     // given n an index in the squared spiral
     // p the sum of point in inner square
     // a the position on the current square
@@ -53,7 +56,8 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
         case 2 => r
         case 3 => r - (a % en)
       }
-    )
+      )
   }
+
 
 }
