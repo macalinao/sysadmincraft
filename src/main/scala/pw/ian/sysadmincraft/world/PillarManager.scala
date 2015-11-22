@@ -28,6 +28,10 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
         case None => buildPillar(nextFreeIndex, process)
       }
     }
+    // Destroy pillars that are missing
+    (pillars.keySet &~ processes.map(_.name).toSet).foreach { name =>
+      destroyPillar(pillars.get(name).get)
+    }
   }
 
   def buildPillar(index: Int, process: SysProcess) = {

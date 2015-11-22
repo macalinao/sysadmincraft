@@ -93,18 +93,19 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
       z <- 0 until PILLAR_WIDTH
     } base.getRelative(x, y, z).setType(Material.GLASS)
 
-    //then make a hole inside those blocks to house the mobs
+    // Bottom hole
     for {
       x <- 0 until PILLAR_WIDTH
-      y <- -MOB_HOUSE_DEPTH until MOB_HOUSE_HEIGHT // dig underground
+      y <- -MOB_HOUSE_DEPTH until 0 // dig underground
       z <- 0 until PILLAR_WIDTH
     } base.getRelative(x, y, z).setType(Material.AIR)
 
-    // hole
+    // Top hole
     for {
       x <- 1 until PILLAR_WIDTH - 1
       y <- 0 until MOB_HOUSE_HEIGHT - 1
-    } base.getRelative(x, y, 0).setType(Material.AIR)
+      z <- 0 until PILLAR_WIDTH - 1
+    } base.getRelative(x, y, z).setType(Material.AIR)
   }
 
   private def construct(startHeight: Int, endHeight: Int, blockType: Material): Unit =
