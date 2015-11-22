@@ -20,9 +20,6 @@ case class TopCommand(plugin: SysAdmincraft) extends CommandExecutor {
 
     player.sendMessage(ChatColor.GREEN + SystemOverview.uname())
     player.sendMessage(ChatColor.BLUE + SystemOverview.uptime())
-    SystemOverview.memory().foreach { msg =>
-      player.sendMessage(ChatColor.YELLOW + msg)
-    }
     player.sendMessage(ChatColor.GREEN + "Total memory: " + ChatColor.YELLOW + SystemOverview.totalMem() + " MB")
 
     true
