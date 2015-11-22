@@ -16,7 +16,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
   var taken = Set[Int]()
 
   def initPillars(): List[ProcessPillar] = {
-    ProcessAdmin.processes.values.zipWithIndex.map { case (process, index) =>
+    ProcessAdmin.processes.values.toList.sortBy(-_.totalMemory).zipWithIndex.map { case (process, index) =>
       buildPillar(index, process)
     }.toList
   }
