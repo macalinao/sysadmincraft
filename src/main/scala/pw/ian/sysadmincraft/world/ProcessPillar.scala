@@ -35,6 +35,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   def destroy() = {
     destruct(0, height)
+    base.getRelative(0, 2, -1).setType(Material.AIR)
     kill()
   }
 
@@ -48,7 +49,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
   }
 
   private def updateStats(): Unit = {
-    val block = base.getRelative(1, 2, -1)
+    val block = base.getRelative(0, 2, -1)
     block.setType(Material.WALL_SIGN)
     val sign = block.getState.asInstanceOf[Sign]
     sign.setLine(0, process.name)
@@ -68,7 +69,7 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
    * @return the entity
    */
   private def setupMob(): LivingEntity = {
-    val entity = base.getWorld.spawnEntity(base.getLocation.add(PILLAR_WIDTH / 2, 0, PILLAR_WIDTH / 2), process.memAmt match {
+    val entity = base.getWorld.spawnEntity(base.getLocation.add(PILLAR_WIDTH / 2, -MOB_HOUSE_DEPTH, PILLAR_WIDTH / 2), process.memAmt match {
       case x if x <= 0.2 => EntityType.CHICKEN
       case x if x <= 0.4 => EntityType.PIG
       case x if x <= 0.6 => EntityType.ZOMBIE
@@ -88,14 +89,14 @@ case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
     for{
       x <- 0 until PILLAR_WIDTH
       y <- 0 until MOB_HOUSE_HEIGHT
-      z <- 0 until PILLAR_WIDTH
+      z <- 1 until PILLAR_WIDTH
     } base.getRelative(x, y, z).setType(Material.GLASS)
 
     //then make a hole inside those blocks to house the mobs
-    for{
+    for {
       x <- 1 until PILLAR_WIDTH - 1
-      y <- 0 until MOB_HOUSE_HEIGHT
-      z <- 0 until PILLAR_WIDTH - 1
+      y <- -MOB_HOUSE_DEPTH until MOB_HOUSE_HEIGHT // dig underground
+      z <- 1 until PILLAR_WIDTH - 1
     } base.getRelative(x, y, z).setType(Material.AIR)
   }
 
