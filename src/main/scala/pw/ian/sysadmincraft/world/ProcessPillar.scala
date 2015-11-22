@@ -2,15 +2,15 @@ package pw.ian.sysadmincraft.world
 
 import org.bukkit.Material
 import org.bukkit.block.{Sign, Block}
+import pw.ian.sysadmincraft.system.SysProcess
 import pw.ian.sysadmincraft.world.WorldConstants._
-import pw.ian.sysadmincraft.system.Process
 
-case class ProcessPillar(index: Int, base: Block, var process: Process) {
+case class ProcessPillar(index: Int, base: Block, var process: SysProcess) {
 
   var height = 0
   update(process)
 
-  def update(process: Process) = {
+  def update(process: SysProcess) = {
     assert(this.process.id == process.id)
     val newHeight = memToHeight(process.totalMemory)
     if (newHeight > height) {

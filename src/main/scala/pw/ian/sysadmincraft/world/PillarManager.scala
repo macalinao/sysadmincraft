@@ -1,7 +1,7 @@
 package pw.ian.sysadmincraft.world
 
 import org.bukkit.World
-import pw.ian.sysadmincraft.system.ProcessAdmin
+import pw.ian.sysadmincraft.system.{SysProcess, ProcessAdmin}
 import pw.ian.sysadmincraft.SysAdmincraft
 import pw.ian.sysadmincraft.world.WorldConstants._
 
@@ -18,7 +18,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     }.toList
   }
 
-  def refresh(processes: Iterable[pw.ian.sysadmincraft.system.Process]) = {
+  def refresh(processes: Iterable[SysProcess]) = {
     processes.foreach { process =>
       pillars.get(process.id) match {
         case Some(pillar) => pillar.update(process)
@@ -27,7 +27,7 @@ case class PillarManager(plugin: SysAdmincraft, world: World) {
     }
   }
 
-  def buildPillar(index: Int, process: pw.ian.sysadmincraft.system.Process) = {
+  def buildPillar(index: Int, process: SysProcess) = {
     val pillar = ProcessPillar(index, blockFromIndex(index), process)
     pillars += process.id -> pillar
     taken += index
