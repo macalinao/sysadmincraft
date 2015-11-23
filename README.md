@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/simplyianm/sysadmincraft.svg)](https://travis-ci.org/simplyianm/sysadmincraft)
 
+![kill](/images/kill.gif)
+
 [View on YouTube][youtube]
 
 Admin your server in Minecraft!
