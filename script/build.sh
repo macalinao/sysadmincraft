@@ -3,4 +3,4 @@
 DIR=`dirname $0`
 
 cd $DIR/..
-sbt test assembly
+sbt assembly

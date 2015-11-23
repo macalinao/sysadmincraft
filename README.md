@@ -20,7 +20,7 @@ The plugin also exposes a few commands, like:
 
 ## Running
 
-* Run `sbt test assembly` to create the plugin.
+* Run `sbt assembly` to create the plugin.
 * `cd` to the `server/` directory.
 * Run `bootstrap.sh` to set up the Minecraft server.
 * Run `install.sh` to install the plugin.
