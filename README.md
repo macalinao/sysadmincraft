@@ -6,7 +6,7 @@
 
 [View on YouTube][youtube]
 
-Admin your server in Minecraft!
+Admin your server in Minecraft! Inspired by the infamous [psDooM][psdoom]
 
 SysAdmincraft is a way to monitor your server through a fun interface. To kill a process, just kill a monster! Memory management is easy -- you can visually see what processes are taking the most memory on your server. No more ps, top, uname -a, etc! Just connect to a Minecraft server and start managing everything!
 
@@ -30,4 +30,5 @@ The plugin also exposes a few commands, like:
 
 ISC
 
+[psdoom]: http://psdoom.sourceforge.net/
 [youtube]: https://youtu.be/rD9yJ9MHWzo
